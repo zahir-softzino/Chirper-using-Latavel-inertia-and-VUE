@@ -17,7 +17,7 @@ class ChirpController extends Controller
     {
         // return response("new project using inertia js");
         return Inertia::render('chirps/index',[
-            //
+            'chirps' => Chirp::with('user:id,name')->latest()->get(),
         ]);
     }
 
