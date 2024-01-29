@@ -17,7 +17,8 @@ class ChirpController extends Controller
     {
         // return response("new project using inertia js");
         return Inertia::render('chirps/index',[
-            'chirps' => Chirp::with('user:id,name')->latest()->get(),
+            'chirps' => Chirp::with('user:id,name')->latest()->get(),       //This will show all message to all users
+            // 'chirps' => Chirp::where('user_id',Auth::user()->id)->with('user:id,name')->latest()->get(),         //this will show only users own message
         ]);
     }
 
