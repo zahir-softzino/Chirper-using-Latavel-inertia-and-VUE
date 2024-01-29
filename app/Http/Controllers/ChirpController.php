@@ -70,16 +70,28 @@ class ChirpController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Chirp $chirp)
+    public function update(Request $request, Chirp $chirp): RedirectResponse
     {
-        //
+        $validated = $request->validate([
+            'message' => 'required'
+        ]);
+
+        $updateMessage = Chirp::findOrFail($chirp->id);
+        $updateMessage ->message = $request->message;
+        $updateMessage -> user_id = Auth::user()->id;
+        $updateMessage->save();
+
+        return redirect(route('chirps.index'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Chirp $chirp)
+    public function destroy(Chirp $chirp) : RedirectResponse
     {
-        //
+        $chirp = Chirp:: findOrFail($chirp->id);
+        $chirp->delete();
+
+        return redirect(route('chirps.index'));
     }
 }
